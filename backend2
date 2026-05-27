@@ -1,0 +1,41 @@
+package com.sujal.expensetracker;
+
+import java.sql.*;
+
+public class DatabaseHelper {
+    public static Connection getConnection() throws Exception {
+        return DriverManager.getConnection(
+            "jdbc:mysql://localhost:3306/expense_db", 
+            "root", 
+            "your_password"   // ← CHANGE THIS
+        );
+    }
+
+    public static void addTransaction(String type, double amount, String category, String desc) {
+        try (Connection con = getConnection()) {
+            String sql = "INSERT INTO transactions (type, amount, category, description, transaction_date) VALUES (?, ?, ?, ?, CURDATE())";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, type);
+            ps.setDouble(2, amount);
+            ps.setString(3, category);
+            ps.setString(4, desc);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void addReminder(String title, double amount, String dueDate, boolean recurring) {
+        try (Connection con = getConnection()) {
+            String sql = "INSERT INTO reminders (title, amount, due_date, is_recurring) VALUES (?, ?, ?, ?)";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, title);
+            ps.setDouble(2, amount);
+            ps.setString(3, dueDate);
+            ps.setBoolean(4, recurring);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
