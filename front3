@@ -1,0 +1,87 @@
+package com.sujal.expensetracker.view;
+
+import javax.swing.*;
+import java.awt.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+public class MainFrame extends JFrame {
+    private boolean isDarkMode = true;
+
+    public MainFrame() {
+        setTitle("Smart Expense Tracker");
+        setSize(1220, 760);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBackground(new Color(18, 18, 28));
+
+        // Top Bar
+        JPanel topBar = new JPanel(new BorderLayout());
+        topBar.setPreferredSize(new Dimension(0, 80));
+        topBar.setBackground(new Color(24, 24, 38));
+
+        JLabel greeting = new JLabel("  Good Evening, Sujal 👋");
+        greeting.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        greeting.setForeground(Color.WHITE);
+
+        JButton themeBtn = new JButton("☀️ Light Mode");
+        themeBtn.addActionListener(e -> toggleTheme(themeBtn, mainPanel));
+
+        topBar.add(greeting, BorderLayout.WEST);
+        topBar.add(themeBtn, BorderLayout.EAST);
+
+        // Navigation Buttons
+        JPanel navPanel = new JPanel(new GridLayout(2, 4, 15, 15));
+        navPanel.setBorder(BorderFactory.createEmptyBorder(30, 40, 30, 40));
+        navPanel.setBackground(new Color(18, 18, 28));
+
+        navPanel.add(createNavButton("➕ Add Transaction", () -> new AddTransactionFrame().setVisible(true)));
+        navPanel.add(createNavButton("📋 View Transactions", () -> new TransactionListFrame().setVisible(true)));
+        navPanel.add(createNavButton("🔔 Smart Reminders", () -> new ReminderFrame().setVisible(true)));
+        navPanel.add(createNavButton("📊 Monthly Report", () -> new MonthlyReportFrame().setVisible(true)));
+
+        // Dashboard Cards
+        JPanel cardsPanel = new JPanel(new GridLayout(1, 3, 25, 25));
+        cardsPanel.setBorder(BorderFactory.createEmptyBorder(20, 40, 40, 40));
+        cardsPanel.setBackground(new Color(18, 18, 28));
+
+        cardsPanel.add(createStatCard("Total Income", "₹92,450", new Color(74, 222, 128)));
+        cardsPanel.add(createStatCard("Total Expense", "₹51,280", new Color(248, 113, 113)));
+        cardsPanel.add(createStatCard("Savings", "₹41,170", new Color(96, 165, 250)));
+
+        mainPanel.add(topBar, BorderLayout.NORTH);
+        mainPanel.add(navPanel, BorderLayout.CENTER);
+        mainPanel.add(cardsPanel, BorderLayout.SOUTH);
+
+        add(mainPanel);
+    }
+
+    private JButton createNavButton(String text, Runnable action) {
+        JButton btn = new JButton(text);
+        btn.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        btn.addActionListener(e -> action.run());
+        return btn;
+    }
+
+    private void toggleTheme(JButton btn, JPanel panel) {
+        isDarkMode = !isDarkMode;
+        Color bg = isDarkMode ? new Color(18, 18, 28) : new Color(245, 245, 250);
+        panel.setBackground(bg);
+        btn.setText(isDarkMode ? "☀️ Light Mode" : "🌙 Dark Mode");
+        repaint();
+    }
+
+    private JPanel createStatCard(String title, String value, Color accent) {
+        JPanel card = new JPanel(new BorderLayout());
+        card.setBackground(new Color(30, 30, 46));
+        card.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+        card.add(new JLabel(title), BorderLayout.NORTH);
+        JLabel val = new JLabel(value);
+        val.setFont(new Font("Segoe UI", Font.BOLD, 28));
+        val.setForeground(accent);
+        card.add(val, BorderLayout.CENTER);
+        return card;
+    }
+}

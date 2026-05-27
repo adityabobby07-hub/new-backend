@@ -1,0 +1,55 @@
+package com.sujal.expensetracker.view;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+public class TransactionListFrame extends JFrame {
+
+    private DefaultTableModel model;
+
+    public TransactionListFrame() {
+        setTitle("All Transactions");
+        setSize(1050, 650);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setBackground(new Color(24, 24, 38));
+        topPanel.setPreferredSize(new Dimension(0, 60));
+
+        JLabel searchLabel = new JLabel("   🔍 Search: ");
+        searchLabel.setForeground(Color.WHITE);
+
+        JTextField searchField = new JTextField();
+        searchField.setPreferredSize(new Dimension(300, 35));
+        searchField.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                // Simple search (can be improved)
+            }
+        });
+
+        topPanel.add(searchLabel, BorderLayout.WEST);
+        topPanel.add(searchField, BorderLayout.CENTER);
+
+        // Table
+        String[] columns = {"Date", "Type", "Category", "Description", "Amount (₹)"};
+        model = new DefaultTableModel(columns, 0);
+        JTable table = new JTable(model);
+        table.setRowHeight(40);
+        table.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+
+        // Sample Data
+        model.addRow(new Object[]{"2026-05-26", "EXPENSE", "Food", "Lunch at College", "320"});
+        model.addRow(new Object[]{"2026-05-25", "EXPENSE", "Transport", "Auto to Station", "150"});
+        model.addRow(new Object[]{"2026-05-24", "INCOME", "Freelance", "Project Payment", "8500"});
+        model.addRow(new Object[]{"2026-05-23", "EXPENSE", "Shopping", "Notebook", "450"});
+
+        JScrollPane scroll = new JScrollPane(table);
+
+        add(topPanel, BorderLayout.NORTH);
+        add(scroll, BorderLayout.CENTER);
+    }
+}

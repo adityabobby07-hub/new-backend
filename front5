@@ -1,0 +1,83 @@
+package com.sujal.expensetracker.view;
+
+import com.sujal.expensetracker.DatabaseHelper;
+import javax.swing.*;
+import java.awt.*;
+import java.time.LocalDate;
+
+public class ReminderFrame extends JFrame {
+
+    public ReminderFrame() {
+        setTitle("Smart Reminders");
+        setSize(580, 620);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+        JPanel panel = new JPanel();
+        panel.setBackground(new Color(18, 18, 28));
+        panel.setLayout(null);
+
+        JLabel title = new JLabel("Set Smart Reminder", SwingConstants.CENTER);
+        title.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        title.setForeground(Color.WHITE);
+        title.setBounds(50, 40, 480, 40);
+        panel.add(title);
+
+        JLabel tLabel = new JLabel("Title:");
+        tLabel.setBounds(60, 120, 150, 30);
+        tLabel.setForeground(Color.WHITE);
+        panel.add(tLabel);
+
+        JTextField titleField = new JTextField("Electricity Bill");
+        titleField.setBounds(220, 120, 300, 45);
+        panel.add(titleField);
+
+        JLabel aLabel = new JLabel("Amount (₹):");
+        aLabel.setBounds(60, 190, 150, 30);
+        aLabel.setForeground(Color.WHITE);
+        panel.add(aLabel);
+
+        JTextField amtField = new JTextField("1250");
+        amtField.setBounds(220, 190, 300, 45);
+        panel.add(amtField);
+
+        JLabel dLabel = new JLabel("Due Date:");
+        dLabel.setBounds(60, 260, 150, 30);
+        dLabel.setForeground(Color.WHITE);
+        panel.add(dLabel);
+
+        JTextField dateField = new JTextField(LocalDate.now().plusDays(7).toString());
+        dateField.setBounds(220, 260, 300, 45);
+        panel.add(dateField);
+
+        JCheckBox recurring = new JCheckBox("Recurring (Daily Reminder)");
+        recurring.setBounds(220, 330, 300, 30);
+        recurring.setForeground(Color.WHITE);
+        recurring.setBackground(new Color(18, 18, 28));
+        panel.add(recurring);
+
+        JButton setBtn = new JButton("SET REMINDER");
+        setBtn.setBounds(100, 420, 380, 60);
+        setBtn.setBackground(new Color(255, 140, 0));
+        setBtn.setForeground(Color.WHITE);
+        setBtn.setFont(new Font("Segoe UI", Font.BOLD, 16));
+
+        setBtn.addActionListener(e -> {
+            try {
+                DatabaseHelper.addReminder(
+                    titleField.getText(),
+                    Double.parseDouble(amtField.getText()),
+                    dateField.getText(),
+                    recurring.isSelected()
+                );
+                JOptionPane.showMessageDialog(this, "✅ Smart Reminder Set Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                dispose();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Please fill details correctly!");
+            }
+        });
+
+        panel.add(setBtn);
+        add(panel);
+    }
+}

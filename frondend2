@@ -1,0 +1,56 @@
+package com.sujal.expensetracker.view;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class LoginFrame extends JFrame {
+
+    public LoginFrame() {
+        setTitle("Smart Expense Tracker - Login");
+        setSize(440, 560);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setResizable(false);
+
+        JPanel panel = new JPanel();
+        panel.setBackground(new Color(18, 18, 28));
+        panel.setLayout(null);
+
+        JLabel title = new JLabel("Smart Expense", SwingConstants.CENTER);
+        title.setFont(new Font("Segoe UI", Font.BOLD, 28));
+        title.setForeground(Color.WHITE);
+        title.setBounds(50, 80, 340, 50);
+
+        JLabel subtitle = new JLabel("Track • Save • Grow", SwingConstants.CENTER);
+        subtitle.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        subtitle.setForeground(new Color(120, 180, 255));
+        subtitle.setBounds(50, 130, 340, 30);
+
+        JTextField usernameField = new JTextField("sujal");
+        usernameField.setBounds(70, 200, 300, 50);
+        usernameField.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+
+        JPasswordField passwordField = new JPasswordField("1234");
+        passwordField.setBounds(70, 270, 300, 50);
+        passwordField.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+
+        JButton loginButton = new JButton("LOGIN");
+        loginButton.setBounds(70, 360, 300, 55);
+        loginButton.setBackground(new Color(0, 122, 255));
+        loginButton.setForeground(Color.WHITE);
+        loginButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
+
+        loginButton.addActionListener(e -> {
+            dispose();
+            new MainFrame().setVisible(true);
+        });
+
+        panel.add(title);
+        panel.add(subtitle);
+        panel.add(usernameField);
+        panel.add(passwordField);
+        panel.add(loginButton);
+
+        add(panel);
+    }
+}
